@@ -1,9 +1,18 @@
-import { Controller, Get, Post, Put, Delete, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Request, UseGuards, Body } from '@nestjs/common';
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { AppService } from './app.service';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
+
+class User {
+  @ApiProperty()
+  email: string;
+
+  @ApiProperty()
+  password: string;
+}
 
 @Controller()
 export class AppController {
@@ -21,17 +30,15 @@ export class AppController {
     };
   }
 
-  // create a new user
   @Post('api/signup')
-  async signup(@Request() req) {
-    return this.authService.signup(req.body);
+  async signup(@Body() body: User ) {
+    return this.authService.signup(body);
   }
 
-  // login with an existing user
   @UseGuards(LocalAuthGuard)
   @Post('api/login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  async login(@Body() { email, password }: User) {
+    return this.authService.login({ email, password });
   }
-
 }
+

@@ -21,7 +21,7 @@ async function bootstrap() {
       },
       'JWT-auth',
     )
-    .addTag('users', 'Operações com usuários')
+    .addTag('Users', 'CRUD de usuários')
     .build();
   
   const document = SwaggerModule.createDocument(app, config, {
