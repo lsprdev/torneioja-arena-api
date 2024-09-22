@@ -3,6 +3,7 @@ import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { AppService } from './app.service';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller()
 export class AppController {
@@ -31,18 +32,6 @@ export class AppController {
   @Post('api/login')
   async login(@Request() req) {
     return this.authService.login(req.user);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('api/users')
-  async users(@Request() req) {
-    return this.authService.getUsers();
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('api/user/:id')
-  async user(@Request() req) {
-    return this.authService.getUser(req.params.id);
   }
 
 }
