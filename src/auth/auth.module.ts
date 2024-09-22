@@ -6,10 +6,12 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.strategy';
+import { ArenaModule } from 'src/arena/arena.module';
 
 @Module({
   imports: [
     forwardRef(() => UsersModule),
+    forwardRef(() => ArenaModule),
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,

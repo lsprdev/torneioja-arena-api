@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { UsersModule } from './users/users.module';
+import { ArenaModule } from './arena/arena.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,10 +23,11 @@ async function bootstrap() {
       'JWT-auth',
     )
     .addTag('Users', 'CRUD de usuários')
+    .addTag('Arenas', 'CRUD de arenas')
     .build();
   
   const document = SwaggerModule.createDocument(app, config, {
-    include: [UsersModule, AppModule],
+    include: [UsersModule, ArenaModule, AppModule],
   });
   SwaggerModule.setup('swagger', app, document);
 
