@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { UsersModule } from './users/users.module';
 import { ArenaModule } from './arena/arena.module';
 import { CourtModule } from './court/court.module';
+import { ScheduleModule } from './schedule/schedule.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -26,10 +27,11 @@ async function bootstrap() {
     .addTag('Users', 'CRUD de usuários')
     .addTag('Arenas', 'CRUD de arenas')
     .addTag('Courts', 'CRUD de quadras')
+    .addTag('Schedule', 'CRUD de agendamentos')
     .build();
   
   const document = SwaggerModule.createDocument(app, config, {
-    include: [UsersModule, ArenaModule, CourtModule,AppModule],
+    include: [UsersModule, ArenaModule, CourtModule, ScheduleModule,AppModule],
   });
   SwaggerModule.setup('swagger', app, document);
 
