@@ -1,11 +1,12 @@
-import { Controller, Get, Post, Put, Delete, Request, UseGuards, Param, Body } from '@nestjs/common';
-import { AuthService } from '../auth/auth.service';
+import { Controller, Get, Post, Put, Delete, UseGuards, Param, Body } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ArenaService } from './arena.service';
 
 class Arenas {
     @ApiProperty()
     userId: number;
+    user: any;
 
     @ApiProperty()
     name: string;
@@ -14,54 +15,124 @@ class Arenas {
     address: string;
 }
 
-
 @ApiTags('Arenas')
 @Controller('api')
 export class ArenaController {
     constructor(
-        private authService: AuthService,
+        private arenaService: ArenaService,
     ) { }
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('JWT-auth')
     @Get('arenas')
     async getArenas() {
-        return this.authService.getArenas();
+        try {
+            const arenas = await this.arenaService.arenas({});
+            return {
+                message: `${arenas.length} arenas encontradas`,
+                data: arenas,
+            };
+        } catch (error) {
+            return {
+                message: 'Não foi possível encontrar arenas.',
+                error: error.message,
+            };
+        }
     }
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('JWT-auth')
     @Get('arenas/:id')
     async getArenaById(@Param('id') id: number) {
-        return this.authService.getArena(Number(id));
+        try {
+            const arena = await this.arenaService.arena({ id: Number(id) });
+            return {
+                message: 'Arena encontrada.',
+                data: arena,
+            };
+        } catch (error) {
+            return {
+                message: 'Não foi possível encontrar a arena.',
+                error: error.message,
+            };
+        }
     }
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('JWT-auth')
     @Get('arenas/user/:userId')
     async getArenasByUserId(@Param('userId') userId: number) {
-        return this.authService.getArenasByUserId(Number(userId));
+        try {
+            const arenas = await this.arenaService.arenas({ where: { userId: Number(userId) } });
+            return {
+                message: `${arenas.length} arenas encontradas`,
+                data: arenas,
+            };
+        } catch (error) {
+            return {
+                message: 'Não foi possível encontrar arenas.',
+                error: error.message,
+            };
+        }
     }
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('JWT-auth')
     @Post('arenas')
     async createArena(@Body() body: Arenas ) {
-        return this.authService.createArena(body);
+        try {
+            const arena = await this.arenaService.createArena({
+                ...body,
+            });
+            return {
+                message: 'Arena criada.',
+                data: arena,
+            };
+        } catch (error) {
+            return {
+                message: 'Não foi possível criar a arena.',
+                error: error.message,
+            };
+        }
     }
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('JWT-auth')
     @Put('arenas/:id')
     async updateArena(@Param('id') id: number, @Body() body: Arenas) {
-        return this.authService.updateArena(Number(id), body);
+        try {
+            const arena = await this.arenaService.updateArena({
+                where: { id: Number(id) },
+                data: body,
+            });
+            return {
+                message: 'Arena atualizada.',
+                data: arena,
+            };
+        } catch (error) {
+            return {
+                message: 'Não foi possível atualizar a arena.',
+                error: error.message,
+            };
+        }
     }
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('JWT-auth')
     @Delete('arenas/:id')
     async deleteArena(@Param('id') id: number) {
-        return this.authService.deleteArena(Number(id));
+        try {
+            const arena = await this.arenaService.deleteArena({ id: Number(id) });
+            return {
+                message: 'Arena deletada.',
+                data: arena,
+            };
+        } catch (error) {
+            return {
+                message: 'Não foi possível deletar a arena.',
+                error: error.message,
+            };
+        }
     }
 
 }
