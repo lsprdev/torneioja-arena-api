@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { ArenaModule } from './arena/arena.module';
 import { CourtModule } from './court/court.module';
 import { ScheduleModule } from './schedule/schedule.module';
+import { AuthModule } from './auth/auth.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -24,6 +25,7 @@ async function bootstrap() {
       },
       'JWT-auth',
     )
+    .addTag('Auth', 'Autenticação de usuários')
     .addTag('Users', 'CRUD de usuários')
     .addTag('Arenas', 'CRUD de arenas')
     .addTag('Courts', 'CRUD de quadras')
@@ -31,7 +33,7 @@ async function bootstrap() {
     .build();
   
   const document = SwaggerModule.createDocument(app, config, {
-    include: [UsersModule, ArenaModule, CourtModule, ScheduleModule,AppModule],
+    include: [UsersModule, ArenaModule, CourtModule, ScheduleModule, AuthModule],
   });
   SwaggerModule.setup('swagger', app, document);
 
