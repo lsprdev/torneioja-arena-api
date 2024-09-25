@@ -59,8 +59,8 @@ export class CourtController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth('JWT-auth')
+    // @UseGuards(JwtAuthGuard)
+    // @ApiBearerAuth('JWT-auth')
     @Get('courts/arena/:arenaId')
     async getCourtsByArenaId(@Param('arenaId') arenaId: number) {
         try {

@@ -5,14 +5,24 @@ import { ArenaService } from './arena.service';
 
 class Arenas {
     @ApiProperty()
-    userId: number;
-    user: any;
+    img: string;
 
     @ApiProperty()
     name: string;
+
+    @ApiProperty()
+    description: string;
     
     @ApiProperty()
     address: string;
+
+    @ApiProperty()
+    phone: string;
+    
+    @ApiProperty()
+    userId: number;
+    user: any;
+
 }
 
 @ApiTags('Arenas')
@@ -40,8 +50,8 @@ export class ArenaController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth('JWT-auth')
+    // @UseGuards(JwtAuthGuard)
+    // @ApiBearerAuth('JWT-auth')
     @Get('arenas/:id')
     async getArenaById(@Param('id') id: number) {
         try {
