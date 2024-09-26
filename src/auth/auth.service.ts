@@ -73,8 +73,8 @@ export class AuthService {
                 };
             } else {
                 const payload = {
-                    id: user.id,
-                    email: user.email
+                    id: userExists.id,
+                    email: userExists.email
                 };
                 return {
                     message: 'Login bem sucedido!',
