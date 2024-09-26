@@ -17,7 +17,10 @@ class Schedule {
     court: any;
     
     @ApiProperty()
-    dateTime: Date;
+    initTime: Date;
+
+    @ApiProperty()
+    endTime: Date;
 }
 
 @ApiTags('Schedule')

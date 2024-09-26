@@ -40,7 +40,8 @@ model Court {
 
 model Schedule {
   id       Int      @id @default(autoincrement())
-  dateTime DateTime
+  initTime DateTime
+  endTime  DateTime
   userId   Int
   user     User     @relation(fields: [userId], references: [id])
   arenaId  Int
