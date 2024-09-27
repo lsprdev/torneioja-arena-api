@@ -28,6 +28,10 @@ export class ScheduleService {
             cursor,
             where,
             orderBy,
+            include: {
+                arena: true,
+                court: true,
+            },
         });
     }
 
